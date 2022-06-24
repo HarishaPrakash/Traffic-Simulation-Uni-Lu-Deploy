@@ -1,6 +1,8 @@
 
 const userCanDropObjects=true;
 var toggle = 0
+var counter = 0
+var stopall = 0
 //var drawVehIDs=true; // defined in control_gui.js
 //var drawRoadIDs=true; // defined in control_gui.js
 var showCoords=true;  // show logical coords of nearest road to mouse pointer
@@ -17,7 +19,7 @@ var showCoords=true;  // show logical coords of nearest road to mouse pointer
 // button/choicebox controlled vars 
 
 // callback "changeTrafficRules needs ready roads etc->not here
-var trafficRuleIndex=0; // {priority,symmetric,traffic lights}
+var trafficRuleIndex=2; // {priority,symmetric,traffic lights}
 var cycleTL=50; // 50 seconds
 var greenMain=33; //33
 var dt_lastSwitch=0;
@@ -31,8 +33,8 @@ var laneCount=nLanes_main+nLanes_sec;
 
 qIn=390./3600; // 390 inflow to both directional main roads
 q2=250./3600;   // 220 inflow to secondary (subordinate) roads
-fracRight=0.; // fracRight [0-1] of drivers on road 2 turn right
-fracLeft=0.; // rest of q2-drivers cross straight ahead
+fracRight=0.5; // fracRight [0-1] of drivers on road 2 turn right
+fracLeft=0.5; // rest of q2-drivers cross straight ahead
 
 IDM_v0=15;
 IDM_a=2.0;
@@ -931,7 +933,7 @@ function drawSim() {
   // (zoomback is better in sim!)
 
   if(userCanDropObjects&&(!isSmartphone)){
-    trafficObjs.draw(scale);
+      trafficObjs.draw(scale);
   }
 
   ctx.setTransform(1,0,0,1,0,0); 
@@ -947,7 +949,7 @@ function drawSim() {
 
   // drawSim (7): show logical coordinates if activated
 
-  if(showCoords&&mouseInside){
+    if(showCoords&&mouseInside){
     showLogicalCoords(xPixUser,yPixUser);
   }
   
@@ -992,16 +994,46 @@ var myRun=setInterval(main_loop, 1000/fps);
 
 function nextTLphase(){
   console.log("in nextTLphase: TL[0].value=",TL[0].value);
-  if(TL[0].value=="green") for(var i=0; i<4; i++){
-    trafficObjs.setTrafficLight(TL[i], (i<2) ? "red" : "green");
-    //old_traffic_obj.push(TL[i]); //Harisha Prakash
+
+  if(counter%8 == 0){
+    trafficObjs.setTrafficLight(TL[0], "green");
+    trafficObjs.setTrafficLight(TL[1], "red");
+    trafficObjs.setTrafficLight(TL[2], "red");
+    trafficObjs.setTrafficLight(TL[3], "red");
   }
-  else for(var i=0; i<4; i++){
-    trafficObjs.setTrafficLight(TL[i], (i<2) ? "green" : "red");
+
+  if(counter%8 == 2){
+    trafficObjs.setTrafficLight(TL[0], "red");
+    trafficObjs.setTrafficLight(TL[1], "green");
+    trafficObjs.setTrafficLight(TL[2], "red");
+    trafficObjs.setTrafficLight(TL[3], "red");
   }
+
+  if(counter%8 == 4){
+    trafficObjs.setTrafficLight(TL[0], "red");
+    trafficObjs.setTrafficLight(TL[1], "red");
+    trafficObjs.setTrafficLight(TL[2], "green");
+    trafficObjs.setTrafficLight(TL[3], "red");
+  }
+
+  if(counter%8 == 6){
+    trafficObjs.setTrafficLight(TL[0], "red");
+    trafficObjs.setTrafficLight(TL[1], "red");
+    trafficObjs.setTrafficLight(TL[2], "red");
+    trafficObjs.setTrafficLight(TL[3], "green");
+  }
+
+  if(counter%8 == 1 || counter%8 == 3 || counter%8 == 5 || counter%8 == 7){
+    trafficObjs.setTrafficLight(TL[0], "red");
+    trafficObjs.setTrafficLight(TL[1], "red");
+    trafficObjs.setTrafficLight(TL[2], "red");
+    trafficObjs.setTrafficLight(TL[3], "red");
+  }
+
+
+counter = counter+1
 
 }
-
 
 
 function changeTrafficRules(ruleIndex){
@@ -1048,6 +1080,7 @@ function changeTrafficRules(ruleIndex){
     }
   }
   console.log("end changeTrafficRules: trafficRuleIndex=",trafficRuleIndex);
+  
 }
     
 
