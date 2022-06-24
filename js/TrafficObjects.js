@@ -302,7 +302,7 @@ TrafficObjects.prototype.draw=function(){
       var v=(cphi>0) ? -distCenter : distCenter; // [m]
 
       
-//////////
+//Added by Harisha Prakash
       // Traffic light after drop position settings
       console.log("counter", counter)
       if (obj.road.roadID===0 && (counter%8 ===2 || counter%8 ===1))//2 & 1

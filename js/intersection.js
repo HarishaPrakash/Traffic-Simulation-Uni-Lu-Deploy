@@ -992,6 +992,7 @@ var myRun=setInterval(main_loop, 1000/fps);
 // address each TL individually because otherwise (just flipping state)
 // consequential errors ("all 4 red or green") not caught
 
+//Added by Harisha Prakash
 function nextTLphase(){
   console.log("in nextTLphase: TL[0].value=",TL[0].value);
 
