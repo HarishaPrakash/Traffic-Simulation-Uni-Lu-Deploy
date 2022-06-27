@@ -33,8 +33,8 @@ var laneCount=nLanes_main+nLanes_sec;
 
 qIn=390./3600; // 390 inflow to both directional main roads
 q2=250./3600;   // 220 inflow to secondary (subordinate) roads
-fracRight=0.5; // fracRight [0-1] of drivers on road 2 turn right
-fracLeft=0.5; // rest of q2-drivers cross straight ahead
+fracRight=0.3; // fracRight [0-1] of drivers on road 2 turn right
+fracLeft=0.3; // rest of q2-drivers cross straight ahead
 
 IDM_v0=15;
 IDM_a=2.0;
@@ -933,7 +933,7 @@ function drawSim() {
   // (zoomback is better in sim!)
 
   if(userCanDropObjects&&(!isSmartphone)){
-      trafficObjs.draw(scale);
+      trafficObjs.draw(scale, canvas);
   }
 
   ctx.setTransform(1,0,0,1,0,0); 

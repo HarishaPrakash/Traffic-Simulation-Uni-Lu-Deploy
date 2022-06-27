@@ -188,7 +188,6 @@ function TrafficObjects(canvas,nTL,nLimit,xRelDepot,yRelDepot,nRow,nCol){
 
 
   this.calcDepotPositions(canvas); // sets pixel sizes, positions
-
     
   // logging
 
@@ -212,7 +211,7 @@ function TrafficObjects(canvas,nTL,nLimit,xRelDepot,yRelDepot,nRow,nCol){
 // calculate depot positions (call at init and after each resize)
 //######################################################################
 
-TrafficObjects.prototype.calcDepotPositions=function(canvas){
+TrafficObjects.prototype.calcDepotPositions=function(){
 
   this.sizeCanvas=Math.min(canvas.width, canvas.height);
   this.wPix=this.sizeRel*this.sizeCanvas; // diameter [pix] of traffObj signs
@@ -251,6 +250,14 @@ TrafficObjects.prototype.calcDepotPositions=function(canvas){
 
 
 TrafficObjects.prototype.draw=function(){
+  //console.log("width", canvas.width)
+
+  //var simDivWindow=document.getElementById("contents");
+  //var canvas = document.getElementById("canvas"); 
+  //var ctx = canvas.getContext("2d"); // graphics context
+  //canvas.width  = simDivWindow.clientWidth;
+  //canvas.height  = simDivWindow.clientHeight;
+  console.log("width", canvas.width);
 
   //console.log("in TrafficObjects.draw");
   var crossingLineWidth=1;   // width[m] of white line at sign/TL
@@ -300,7 +307,8 @@ TrafficObjects.prototype.draw=function(){
       
       var distCenter=0.1*crossingLineLength+0.6*road.laneWidth;
       var v=(cphi>0) ? -distCenter : distCenter; // [m]
-
+      xPix=(canvas.width/2);  // + left if cphi>0
+      yPix=(canvas.height/2);
       
 //Added by Harisha Prakash
       // Traffic light after drop position settings
@@ -308,10 +316,10 @@ TrafficObjects.prototype.draw=function(){
       if (obj.road.roadID===0 && (counter%8 ===2 || counter%8 ===1))//2 & 1
       {
       if(this.active_drawTopSign){ // draw active sign above the road
-        xPix=xCenterPix+scale*v*sphi;  // + left if cphi>0
-        yPix=yCenterPix+scale*v*cphi;  // -*-=+
-        //ctx.setTransform(1,0,0,1,xPix,yPix);
-        ctx.setTransform(1,0,0,1,1000,630);
+        //xPix=xCenterPix+scale*v*sphi;  // + left if cphi>0
+        //yPix=yCenterPix+scale*v*cphi;  // -*-=+
+        ctx.setTransform(1,0,0,1,xPix+20,yPix-20);//1st
+        //ctx.setTransform(1,0,0,1,600,380);
         if(obj.road.roadID===0){ctx.rotate(90*Math.PI/180);}
         ctx.scale(-1,1)
         ctx.drawImage(obj.image,-0.5*wPixActive,
@@ -324,10 +332,10 @@ TrafficObjects.prototype.draw=function(){
       if (obj.road.roadID===2 && (counter%8 ===6 || counter%8 ===5)) //6 & 5
       {
       if(this.active_drawTopSign){ // draw active sign above the road
-        xPix=xCenterPix+scale*v*sphi;  // + left if cphi>0
-        yPix=yCenterPix+scale*v*cphi;  // -*-=+
-        //ctx.setTransform(1,0,0,1,xPix,yPix);
-        ctx.setTransform(1,0,0,1,1000,630);
+        //xPix=xCenterPix+scale*v*sphi;  // + left if cphi>0
+        //yPix=yCenterPix+scale*v*cphi;  // -*-=+
+        ctx.setTransform(1,0,0,1,xPix,yPix-20);//3rd
+        //ctx.setTransform(1,0,0,1,600,380);
         if(obj.road.roadID===0){ctx.rotate(90*Math.PI/180);}
         ctx.scale(-1,1)
         ctx.drawImage(obj.image,-0.5*wPixActive,
@@ -341,10 +349,10 @@ TrafficObjects.prototype.draw=function(){
       {
       if(this.active_drawBotSign){ // draw active sign below the road
   v*=-1;
-        xPix=xCenterPix+scale*v*sphi;  // + left if cphi>0
-        yPix=yCenterPix+scale*v*cphi;  // -*-=+
-        //ctx.setTransform(1,0,0,1,xPix,yPix);
-        ctx.setTransform(1,0,0,1,1000,690);
+        //xPix=xCenterPix+scale*v*sphi;  // + left if cphi>0
+        //yPix=yCenterPix+scale*v*cphi;  // -*-=+
+        ctx.setTransform(1,0,0,1,xPix,yPix+20);//2nd
+        //ctx.setTransform(1,0,0,1,600,380);
         if (obj.road.roadID===1){
           ctx.rotate(-90*Math.PI/180);
           ctx.scale(-1,1)
@@ -360,10 +368,10 @@ TrafficObjects.prototype.draw=function(){
       {
       if(this.active_drawBotSign){ // draw active sign below the road
   v*=-1;
-        xPix=xCenterPix+scale*v*sphi;  // + left if cphi>0
-        yPix=yCenterPix+scale*v*cphi;  // -*-=+
-        //ctx.setTransform(1,0,0,1,xPix,yPix);
-        ctx.setTransform(1,0,0,1,1030,680);
+        //xPix=xCenterPix+scale*v*sphi;  // + left if cphi>0
+        //yPix=yCenterPix+scale*v*cphi;  // -*-=+
+        ctx.setTransform(1,0,0,1,xPix+20,yPix);//4th
+        //ctx.setTransform(1,0,0,1,600,380);
         if (obj.road.roadID===1){
           ctx.rotate(-90*Math.PI/180);
           ctx.scale(-1,1)
