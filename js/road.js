@@ -4632,7 +4632,7 @@ road.prototype.drawVehicle=function(i,carImg, truckImg, obstacleImg, scale,
     // (5) draw semi-transp box of speed-dependent color 
     //     over the images
     //     (different size of box because of mirrors of veh images)
-
+/*
   if((type!="obstacle")&&(speedmax>1e-10)){ // no box if speedmin=speedmax=0
         var effLenPix=(type==="car") ? 0.95*vehLenPix : 0.90*vehLenPix;
         var effWPix=(type==="car") ? 0.55*vehWidthPix : 0.70*vehWidthPix;
@@ -4654,7 +4654,7 @@ road.prototype.drawVehicle=function(i,carImg, truckImg, obstacleImg, scale,
 			       1.2*effLenPix, 1.2*effWPix);
 	}
     }
-
+*/
     //(6) optionally draw vehicle ID near the vehicle
 
     //if(this.drawVehIDs&&(this.veh[i].isRegularVeh())){

@@ -33,19 +33,19 @@ var laneCount=nLanes_main+nLanes_sec;
 
 qIn=390./3600; // 390 inflow to both directional main roads
 q2=250./3600;   // 220 inflow to secondary (subordinate) roads
-fracRight=0.3; // fracRight [0-1] of drivers on road 2 turn right
-fracLeft=0.3; // rest of q2-drivers cross straight ahead
+fracRight=0.15; // fracRight [0-1] of drivers on road 2 turn right
+fracLeft=0.15; // rest of q2-drivers cross straight ahead
 
-IDM_v0=15;
+IDM_v0=10;
 IDM_a=2.0;
 timewarp=3.5;
 
 var mainroadLen=200;              // reference size in m
 
 var laneWidth=10.0; //3 
-var car_length=5;    // car length in m (all a bit oversize for visualisation)
-var car_width=2.5;     // car width in m
-var truck_length=10;
+var car_length=4;    // car length in m (all a bit oversize for visualisation)
+var car_width=2;     // car width in m
+var truck_length=6;
 var truck_width=3; 
 
 // ###################################################
@@ -141,10 +141,10 @@ truckImg.src = 'figs/truck1Small.png';
 
 // init traffic light images
 
-traffLightRedImg = new Image();
-traffLightRedImg.src='figs/trafficLightRed_affine.png';
-traffLightGreenImg = new Image();
-traffLightGreenImg.src='figs/trafficLightGreen_affine.png';
+//traffLightRedImg = new Image();
+//traffLightRedImg.src='figs/trafficLightRed_affine.png';
+//traffLightGreenImg = new Image();
+//traffLightGreenImg.src='figs/trafficLightGreen_affine.png';
 
 
 //*********************
@@ -856,6 +856,7 @@ function updateTrafficRobots(){
 
 }
 toggle = toggle + 1;
+if (toggle == 50){toggle = 0}
 }
 
 
@@ -941,18 +942,18 @@ function drawSim() {
 
 
   // drawSim (6): show simulation time and detector displays
-
+  /*
   displayTime(time,textsize);
   for(var iDet=0; iDet<detectors.length; iDet++){
 	detectors[iDet].display(textsize);
   }
-
+*/
   // drawSim (7): show logical coordinates if activated
-
+/*
     if(showCoords&&mouseInside){
     showLogicalCoords(xPixUser,yPixUser);
   }
-  
+*/
   //if(itime==182){console.log("end drawsim:"); debugVeh(211);}
 } // drawSim
 
@@ -996,35 +997,21 @@ var myRun=setInterval(main_loop, 1000/fps);
 function nextTLphase(){
   console.log("in nextTLphase: TL[0].value=",TL[0].value);
 
-  if(counter%8 == 0){
+  if(counter%4 == 0){
     trafficObjs.setTrafficLight(TL[0], "green");
-    trafficObjs.setTrafficLight(TL[1], "red");
-    trafficObjs.setTrafficLight(TL[2], "red");
-    trafficObjs.setTrafficLight(TL[3], "red");
-  }
-
-  if(counter%8 == 2){
-    trafficObjs.setTrafficLight(TL[0], "red");
     trafficObjs.setTrafficLight(TL[1], "green");
     trafficObjs.setTrafficLight(TL[2], "red");
     trafficObjs.setTrafficLight(TL[3], "red");
   }
 
-  if(counter%8 == 4){
+  if(counter%4 == 2){
     trafficObjs.setTrafficLight(TL[0], "red");
     trafficObjs.setTrafficLight(TL[1], "red");
     trafficObjs.setTrafficLight(TL[2], "green");
-    trafficObjs.setTrafficLight(TL[3], "red");
-  }
-
-  if(counter%8 == 6){
-    trafficObjs.setTrafficLight(TL[0], "red");
-    trafficObjs.setTrafficLight(TL[1], "red");
-    trafficObjs.setTrafficLight(TL[2], "red");
     trafficObjs.setTrafficLight(TL[3], "green");
   }
 
-  if(counter%8 == 1 || counter%8 == 3 || counter%8 == 5 || counter%8 == 7){
+  if(counter%4 == 1 || counter%4 == 3){
     trafficObjs.setTrafficLight(TL[0], "red");
     trafficObjs.setTrafficLight(TL[1], "red");
     trafficObjs.setTrafficLight(TL[2], "red");
@@ -1033,6 +1020,7 @@ function nextTLphase(){
 
 
 counter = counter+1
+if (counter == 4){counter = 0}
 
 }
 

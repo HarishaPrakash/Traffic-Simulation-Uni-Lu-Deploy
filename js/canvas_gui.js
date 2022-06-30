@@ -219,6 +219,7 @@ function getMouseCoordinates(event){// called if mouse moved or down
 // get roadID and logical u,v coordinates of nearest road
 // at the mouse pointer if showCoord is true
 
+/*
 function showLogicalCoords(xPixUser,yPixUser){
 
   var distanceMin=1e9;
@@ -257,7 +258,7 @@ function showLogicalCoords(xPixUser,yPixUser){
 		 coordsStr_ylb-0.2*textsize);
 
 } //showLogicalCoords
-
+*/
 
 // activate display in simulator "log coords u= ..., v= ..."
 
