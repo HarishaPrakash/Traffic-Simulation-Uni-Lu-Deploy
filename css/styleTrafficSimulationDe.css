@@ -197,7 +197,7 @@ which always gives correct size!!
 
 #startStopDiv{
   position: absolute;
-  top: 2vmin;
+  top: 90vmin;
   height: 6vmin;
   left: 140vmin;
   width: 6vmin;
@@ -208,7 +208,7 @@ which always gives correct size!!
 
 #restartDiv{
   position: absolute;
-  top: 2vmin;
+  top: 90vmin;
   height: 6vmin;
   left: 148vmin;
   width: 6vmin;

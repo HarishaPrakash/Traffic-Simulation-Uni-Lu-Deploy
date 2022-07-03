@@ -1,8 +1,6 @@
 
 const userCanDropObjects=true;
 var toggle = 0
-var counter = 0
-var stopall = 0
 //var drawVehIDs=true; // defined in control_gui.js
 //var drawRoadIDs=true; // defined in control_gui.js
 var showCoords=true;  // show logical coords of nearest road to mouse pointer
@@ -19,7 +17,8 @@ var showCoords=true;  // show logical coords of nearest road to mouse pointer
 // button/choicebox controlled vars 
 
 // callback "changeTrafficRules needs ready roads etc->not here
-var trafficRuleIndex=2; // {priority,symmetric,traffic lights}
+var trafficRuleIndex=0; // {priority,symmetric,traffic lights}
+var traffic_type = "four_direction"
 var cycleTL=50; // 50 seconds
 var greenMain=33; //33
 var dt_lastSwitch=0;
@@ -33,19 +32,19 @@ var laneCount=nLanes_main+nLanes_sec;
 
 qIn=390./3600; // 390 inflow to both directional main roads
 q2=250./3600;   // 220 inflow to secondary (subordinate) roads
-fracRight=0.15; // fracRight [0-1] of drivers on road 2 turn right
-fracLeft=0.15; // rest of q2-drivers cross straight ahead
+fracRight=0.; // fracRight [0-1] of drivers on road 2 turn right
+fracLeft=0.; // rest of q2-drivers cross straight ahead
 
-IDM_v0=10;
+IDM_v0=15;
 IDM_a=2.0;
 timewarp=3.5;
 
 var mainroadLen=200;              // reference size in m
 
 var laneWidth=10.0; //3 
-var car_length=4;    // car length in m (all a bit oversize for visualisation)
-var car_width=2;     // car width in m
-var truck_length=6;
+var car_length=5;    // car length in m (all a bit oversize for visualisation)
+var car_width=2.5;     // car width in m
+var truck_length=10;
 var truck_width=3; 
 
 // ###################################################
@@ -141,10 +140,10 @@ truckImg.src = 'figs/truck1Small.png';
 
 // init traffic light images
 
-//traffLightRedImg = new Image();
-//traffLightRedImg.src='figs/trafficLightRed_affine.png';
-//traffLightGreenImg = new Image();
-//traffLightGreenImg.src='figs/trafficLightGreen_affine.png';
+traffLightRedImg = new Image();
+traffLightRedImg.src='figs/handsUp.png';
+traffLightGreenImg = new Image();
+traffLightGreenImg.src='figs/handsDown.png';
 
 
 //*********************
@@ -839,7 +838,7 @@ function updateTrafficRobots(){
 
         if (TL[i].isActive == true && TL[i].value == "green"){
           imgTLred1 = new Image();
-          imgTLred1.src="figs/trafficLightYellow.png";
+          imgTLred1.src="figs/handsUp.png";
           TL[i].image = imgTLred1;
         }
       
@@ -849,14 +848,13 @@ function updateTrafficRobots(){
 
         if (TL[i].isActive == true && TL[i].value == "green"){
         imgTLred2 = new Image();
-        imgTLred2.src="figs/trafficLight_green.png";
+        imgTLred2.src="figs/handsDown.png";
         TL[i].image = imgTLred2;
         }  
   }
 
 }
 toggle = toggle + 1;
-if (toggle == 50){toggle = 0}
 }
 
 
@@ -934,27 +932,12 @@ function drawSim() {
   // (zoomback is better in sim!)
 
   if(userCanDropObjects&&(!isSmartphone)){
-      trafficObjs.draw(scale, canvas);
+    trafficObjs.draw(scale);
   }
 
   ctx.setTransform(1,0,0,1,0,0); 
   drawSpeedlBox(); // draw speedlimit-change select box
 
-
-  // drawSim (6): show simulation time and detector displays
-  /*
-  displayTime(time,textsize);
-  for(var iDet=0; iDet<detectors.length; iDet++){
-	detectors[iDet].display(textsize);
-  }
-*/
-  // drawSim (7): show logical coordinates if activated
-/*
-    if(showCoords&&mouseInside){
-    showLogicalCoords(xPixUser,yPixUser);
-  }
-*/
-  //if(itime==182){console.log("end drawsim:"); debugVeh(211);}
 } // drawSim
 
  
@@ -993,36 +976,18 @@ var myRun=setInterval(main_loop, 1000/fps);
 // address each TL individually because otherwise (just flipping state)
 // consequential errors ("all 4 red or green") not caught
 
-//Added by Harisha Prakash
 function nextTLphase(){
   console.log("in nextTLphase: TL[0].value=",TL[0].value);
-
-  if(counter%4 == 0){
-    trafficObjs.setTrafficLight(TL[0], "green");
-    trafficObjs.setTrafficLight(TL[1], "green");
-    trafficObjs.setTrafficLight(TL[2], "red");
-    trafficObjs.setTrafficLight(TL[3], "red");
+  if(TL[0].value=="green") for(var i=0; i<4; i++){
+    trafficObjs.setTrafficLight(TL[i], (i<2) ? "red" : "green");
+    //old_traffic_obj.push(TL[i]); //Harisha Prakash
   }
-
-  if(counter%4 == 2){
-    trafficObjs.setTrafficLight(TL[0], "red");
-    trafficObjs.setTrafficLight(TL[1], "red");
-    trafficObjs.setTrafficLight(TL[2], "green");
-    trafficObjs.setTrafficLight(TL[3], "green");
+  else for(var i=0; i<4; i++){
+    trafficObjs.setTrafficLight(TL[i], (i<2) ? "green" : "red");
   }
-
-  if(counter%4 == 1 || counter%4 == 3){
-    trafficObjs.setTrafficLight(TL[0], "red");
-    trafficObjs.setTrafficLight(TL[1], "red");
-    trafficObjs.setTrafficLight(TL[2], "red");
-    trafficObjs.setTrafficLight(TL[3], "red");
-  }
-
-
-counter = counter+1
-if (counter == 4){counter = 0}
 
 }
+
 
 
 function changeTrafficRules(ruleIndex){
@@ -1069,7 +1034,6 @@ function changeTrafficRules(ruleIndex){
     }
   }
   console.log("end changeTrafficRules: trafficRuleIndex=",trafficRuleIndex);
-  
 }
     
 
