@@ -392,6 +392,12 @@ if (traffic_type === "one_direction"){
 if (traffic_type === "two_direction"){
       //Added by Harisha Prakash
       // Traffic light after drop position settings
+<<<<<<< HEAD
+=======
+      if(obj.value === "red"){
+        obj.image.src = "figs/trafficLight_red.png";
+      }
+>>>>>>> c097a8e1d31f87eae5787d3dca274b8bd68cdddc
       if (obj.road.roadID===1 && (counter%4 == 1 || counter%4 == 2))//2 & 1
       {
       if(this.active_drawTopSign){ // draw active sign above the road
