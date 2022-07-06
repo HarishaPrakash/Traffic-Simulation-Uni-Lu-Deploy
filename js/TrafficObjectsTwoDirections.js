@@ -133,7 +133,7 @@ function TrafficObjects(canvas,nTL,nLimit,xRelDepot,yRelDepot,nRow,nCol){
   this.imgTLgreen.src="figs/handsDown.png";
   this.imgTLred = new Image();
   //this.imgTLred.src="figs/trafficLight_red.png";
-  this.imgTLred.src="figs/handsUp.png";
+  this.imgTLred.src="figs/trafficLight_red.png";
   this.imgTyellow = new Image();
   //this.imgTyellow.src="figs/trafficLight_yellow.png";
   this.imgTyellow.src="figs/handsDown.png";
