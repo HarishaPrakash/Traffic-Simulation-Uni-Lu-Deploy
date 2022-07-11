@@ -392,7 +392,6 @@ if (traffic_type === "one_direction"){
 if (traffic_type === "two_direction"){
       //Added by Harisha Prakash
       // Traffic light after drop position settings
-
       if(obj.value === "red"){
         obj.image.src = "figs/trafficLight_red.png";
       }
