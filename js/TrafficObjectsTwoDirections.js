@@ -421,7 +421,6 @@ if (traffic_type === "two_direction"){
 }
     
 if (traffic_type === "four_direction"){
-  //////////
       // Traffic light after drop position settings
       if (obj.road.roadID===0 || obj.road.roadID===2)
       {
