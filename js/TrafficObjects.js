@@ -399,7 +399,6 @@ if (traffic_type === "two_direction"){
       {
       if(this.active_drawTopSign){ // draw active sign above the road
         ctx.setTransform(1,0,0,1,xPix,yPix-20);//1st
-
         ctx.scale(-1,1)
         ctx.drawImage(obj.image,-0.5*wPixActive,
         -0.5*hPixActive,1*wPixActive, hPixActive);
